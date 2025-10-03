@@ -72,7 +72,7 @@ app.post('/send-notification', async (req, res) => {
     };
 
     try {
-        const response = await messaging.sendMulticast(message);
+        const response = await messaging.sendEachForMulticast(message);
         console.log(`Notification sent. Success: ${response.successCount}, Failure: ${response.failureCount}`);
 
         await historyCollection.add({
@@ -106,3 +106,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
