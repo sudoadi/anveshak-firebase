@@ -26,17 +26,17 @@ const historyCollection = db.collection('notification_history');
 
 // 1. Register a new device token
 app.post('/register-device', async (req, res) => {
-    const { token } = req.body;
+    const { token, platform } = req.body;
     if (!token) {
         return res.status(400).send({ error: 'Token is required' });
     }
     try {
         await devicesCollection.doc(token).set({
-            token: token,
-            registeredAt: new Date(),
-            platform: 'flutter' // Identify the source
+            token,
+            platform: platform || 'unknown',
+            registeredAt: new Date()
         });
-        console.log(`Registered Flutter device: ${token.substring(0, 20)}...`);
+        console.log(`Registered device: ${token.substring(0, 20)}...`);
         res.status(200).send({ message: 'Device registered successfully' });
     } catch (error) {
         console.error('Error registering device:', error);
@@ -55,7 +55,7 @@ app.get('/devices', async (req, res) => {
     }
 });
 
-// 3. Send a notification
+// 3. Send a notification (FIX: use sendEachForMulticast instead of sendMulticast)
 app.post('/send-notification', async (req, res) => {
     const { title, body, tokens } = req.body;
 
@@ -65,11 +65,11 @@ app.post('/send-notification', async (req, res) => {
 
     const message = {
         notification: { title, body },
-        tokens: tokens,
+        tokens
     };
 
     try {
-        const response = await messaging.sendMulticast(message);
+        const response = await messaging.sendEachForMulticast(message);
         console.log(`Notification sent. Success: ${response.successCount}, Failure: ${response.failureCount}`);
 
         await historyCollection.add({
@@ -81,7 +81,7 @@ app.post('/send-notification', async (req, res) => {
             failureCount: response.failureCount
         });
         
-        res.status(200).send({ message: `Notification sent. Success: ${response.successCount}, Failure: ${response.failureCount}`});
+        res.status(200).send({ message: `Notification sent. Success: ${response.successCount}, Failure: ${response.failureCount}` });
     } catch (error) {
         console.error('Error sending notification:', error);
         res.status(500).send({ error: 'Failed to send notification' });
