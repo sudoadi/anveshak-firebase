@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FCM Notification Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <h2>Registered Devices</h2>
+            <div class="toolbar">
+                <button onclick="selectAll()">Select All</button>
+                <button onclick="deselectAll()">Deselect All</button>
+                <button onclick="loadDevices()">&#x21bb; Refresh</button>
+            </div>
+            <div id="device-list">Loading devices...</div>
+        </div>
+
+        <div class="panel">
+            <h2>Send Notification</h2>
+            <form id="notification-form">
+                <label for="title">Title:</label>
+                <input type="text" id="title" required>
+                <label for="body">Body:</label>
+                <textarea id="body" rows="3" required></textarea>
+                <button type="submit" id="send-button">Send Notification</button>
+            </form>
+            <p id="send-status"></p>
+        </div>
+        
+        <div class="panel">
+            <h2>Notification History</h2>
+            <div class="toolbar">
+                 <button onclick="loadHistory()">&#x21bb; Refresh</button>
+            </div>
+            <ul id="history-list">Loading history...</ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
