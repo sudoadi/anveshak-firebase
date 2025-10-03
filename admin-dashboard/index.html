@@ -10,6 +10,14 @@
         <div class="panel">
             <h2>Registered Devices</h2>
             <div class="toolbar">
+                <div id="filter-buttons">
+                    <button class="filter-btn active" onclick="filterDevices('All')">All</button>
+                    <button class="filter-btn" onclick="filterDevices('Android')">Android</button>
+                    <button class="filter-btn" onclick="filterDevices('iOS')">iOS</button>
+                    <button class="filter-btn" onclick="filterDevices('Web')">Web</button>
+                </div>
+            </div>
+            <div class="toolbar">
                 <button onclick="selectAll()">Select All</button>
                 <button onclick="deselectAll()">Deselect All</button>
                 <button onclick="loadDevices()">&#x21bb; Refresh</button>
@@ -37,7 +45,6 @@
             <ul id="history-list">Loading history...</ul>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
